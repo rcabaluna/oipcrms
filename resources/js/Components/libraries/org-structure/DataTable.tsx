@@ -61,27 +61,29 @@ export function DataTable<TData, TValue>({
 
     return (
         <>
-            <div className="flex items-center gap-2 py-4">
-                <Label htmlFor="search">Search : </Label>
+            {/* Compact search bar */}
+            <div className="flex items-center gap-1 py-2">
+                <Label htmlFor="search" className="text-sm">Search:</Label>
                 <Input
                     id="search"
                     value={globalFilter}
                     onChange={(event) => setGlobalFilter(event.target.value)}
-                    className="max-w-sm"
+                    className="max-w-xs text-sm px-2 py-1"
                 />
             </div>
-            <div className="rounded-md border">
-                <Table>
+
+            {/* Table container with compact styling */}
+            <div className="rounded-md border overflow-x-auto">
+                <Table className="text-sm">
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (
-                            <TableRow key={headerGroup.id}>
+                            <TableRow key={headerGroup.id} className="h-6">
                                 {headerGroup.headers.map((header) => (
-                                    <TableHead key={header.id}>
+                                    <TableHead key={header.id} className="px-2 py-1">
                                         {header.isPlaceholder
                                             ? null
                                             : flexRender(
-                                                    header.column.columnDef
-                                                        .header,
+                                                    header.column.columnDef.header,
                                                     header.getContext()
                                                 )}
                                     </TableHead>
@@ -92,14 +94,9 @@ export function DataTable<TData, TValue>({
                     <TableBody>
                         {table.getRowModel().rows.length ? (
                             table.getRowModel().rows.map((row) => (
-                                <TableRow
-                                    key={row.id}
-                                    data-state={
-                                        row.getIsSelected() && "selected"
-                                    }
-                                >
+                                <TableRow key={row.id} className="h-6">
                                     {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id}>
+                                        <TableCell key={cell.id} className="px-2 py-1">
                                             {flexRender(
                                                 cell.column.columnDef.cell,
                                                 cell.getContext()
@@ -109,10 +106,10 @@ export function DataTable<TData, TValue>({
                                 </TableRow>
                             ))
                         ) : (
-                            <TableRow>
+                            <TableRow className="h-6">
                                 <TableCell
                                     colSpan={columns.length}
-                                    className="h-24 text-center"
+                                    className="h-16 text-center"
                                 >
                                     No results.
                                 </TableCell>
@@ -121,7 +118,9 @@ export function DataTable<TData, TValue>({
                     </TableBody>
                 </Table>
             </div>
-            <div className="mt-5">
+
+            {/* Pagination */}
+            <div className="mt-2">
                 <DataTablePagination table={table} />
             </div>
         </>

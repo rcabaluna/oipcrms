@@ -59,12 +59,8 @@ const data = {
           url: "/libraries/org-structure",
         },
         {
-          title: "Offices",
-          url: "/libraries/offices",
-        },
-        {
           title: "Users",
-          url: "#",
+          url: "/libraries/users",
         },
       ],
     },

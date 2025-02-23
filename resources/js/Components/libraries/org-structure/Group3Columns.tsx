@@ -41,14 +41,22 @@ export const columns: ColumnDef<OfficesCols>[] = [
         ),
         enableSorting: false,
         enableHiding: false,
-    },
+    },    
     {
         accessorKey: "group1Name",
         header: ({ column }) => <DataTableColumnHeader column={column} title="Office Name" />,
     },
     {
-        accessorKey: "group1Code",
-        header: ({ column }) => <DataTableColumnHeader column={column} title="Office Code" />,
+        accessorKey: "group2Name",
+        header: ({ column }) => <DataTableColumnHeader column={column} title="Division Name" />,
+    },
+    {
+        accessorKey: "group3Name",
+        header: ({ column }) => <DataTableColumnHeader column={column} title="Unit Name" />,
+    },
+    {
+        accessorKey: "group3Code",
+        header: ({ column }) => <DataTableColumnHeader column={column} title="Unit Code" />,
     },
     {
         id: "actions",
