@@ -62,6 +62,10 @@ const data = {
           title: "Users",
           url: "/libraries/users",
         },
+        {
+          title: "Accounts",
+          url: "/libraries/accounts",
+        },
       ],
     },
   ],
