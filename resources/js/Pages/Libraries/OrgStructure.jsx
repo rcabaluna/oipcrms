@@ -121,11 +121,7 @@ const OrgStructure = ({ group1, group2, group3 }) => {
                         </Dialog>
                         <div className="grid auto-rows-min mt-5 gap-4 md:grid-cols-1">
                             <div className="rounded-xl">
-                                {group1.length === 0 ? (
-                                    <p className="text-center">No data available</p>
-                                ) : (
-                                    <DataTable columns={group1Columns} data={group1} />
-                                )}
+                                <DataTable columns={group1Columns} data={group1} />
                             </div>
                         </div>
                     </TabsContent>
@@ -185,11 +181,7 @@ const OrgStructure = ({ group1, group2, group3 }) => {
                         </Dialog>
                         <div className="grid auto-rows-min mt-5 gap-4 md:grid-cols-1">
                             <div className="rounded-xl">
-                                {group2.length === 0 ? (
-                                    <p className="text-center">No data available</p>
-                                ) : (
                                     <DataTable columns={group2Columns} data={group2} />
-                                )}
                             </div>
                         </div>
                     </TabsContent>
@@ -264,11 +256,7 @@ const OrgStructure = ({ group1, group2, group3 }) => {
                         </Dialog>
                         <div className="grid auto-rows-min mt-5 gap-4 md:grid-cols-1">
                             <div className="rounded-xl">
-                                {group2.length === 0 ? (
-                                    <p className="text-center">No data available</p>
-                                ) : (
                                     <DataTable columns={group3Columns} data={group3} />
-                                )}
                             </div>
                         </div>
                     </TabsContent>

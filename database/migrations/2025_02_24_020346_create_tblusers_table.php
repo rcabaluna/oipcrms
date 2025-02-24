@@ -13,10 +13,10 @@ return new class extends Migration {
             $table->string('firstname', 100);
             $table->string('middlename', 100)->nullable();
             $table->string('extension', 10)->nullable();
-            $table->string('group1code', 50);
-            $table->string('group2code', 50);
-            $table->string('group3code', 50);
-            $table->string('position', 100);
+            $table->string('group1code', 50)->nullable();
+            $table->string('group2code', 50)->nullable();
+            $table->string('group3code', 50)->nullable();
+            $table->string('position', 100)->nullable();
             $table->tinyInteger('is_active')->default(1);
             $table->tinyInteger('is_head')->default(0);
             $table->timestamps();
