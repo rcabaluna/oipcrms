@@ -24,6 +24,5 @@ use Inertia\Inertia;
 //     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 // });
 
-// require __DIR__.'/auth.php';
-require __DIR__.'/libraries.php';
-
+require __DIR__ . '/auth.php';
+require __DIR__ . '/libraries.php';

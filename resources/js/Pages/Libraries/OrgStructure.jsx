@@ -42,6 +42,7 @@ const OrgStructure = ({ group1, group2, group3 }) => {
         officeForm.post("/libraries/org-structure", {
             onSuccess: () => {
                 setIsOfficeDialogOpen(false);
+                officeForm.reset();  // Reset the office form after success
             },
         });
     };
@@ -51,6 +52,7 @@ const OrgStructure = ({ group1, group2, group3 }) => {
         divisionForm.post("/libraries/org-structure", {
             onSuccess: () => {
                 setIsOfficeDialogOpen(false);
+                divisionForm.reset();  // Reset the division form after success
             },
         });
     };
@@ -60,6 +62,7 @@ const OrgStructure = ({ group1, group2, group3 }) => {
         unitForm.post("/libraries/org-structure", {
             onSuccess: () => {
                 setIsOfficeDialogOpen(false);
+                unitForm.reset();  // Reset the unit form after success
             },
         });
     };
@@ -84,35 +87,40 @@ const OrgStructure = ({ group1, group2, group3 }) => {
                     </TabsList>
                     {/* Office Tab */}
                     <TabsContent value="office">
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <h2 className="text-lg font-semibold">Office</h2>
+                            </div>
+                            <Dialog open={isOfficeDialogOpen} onOpenChange={setIsOfficeDialogOpen}>
+                                <DialogTrigger asChild>
+                                    <Button className="ml-auto mt-3">Add Office</Button>
+                                </DialogTrigger>
+                            </Dialog>
+                        </div>
                         <Dialog open={isOfficeDialogOpen} onOpenChange={setIsOfficeDialogOpen}>
-                            <DialogTrigger asChild>
-                                <Button className="mt-3" onClick={() => setIsOfficeDialogOpen(true)}>Add Office</Button>
-                            </DialogTrigger>
                             <DialogContent>
                                 <DialogHeader>
                                     <DialogTitle>Add New Office</DialogTitle>
                                 </DialogHeader>
-                                <form onSubmit={submitOffice} className="grid gap-4 py-4">
-                                    <div className="grid grid-cols-4 items-center gap-4">
-                                        <Label htmlFor="officename" className="text-left">
-                                            Office Name
-                                        </Label>
-                                        <input type="hidden" name="group" value={officeForm.data.group} />
+                                <form onSubmit={submitOffice} className="grid items-start gap-4 py-4">
+                                    <div className="grid gap-2">
+                                        <Label htmlFor="officename">Office Name</Label>
                                         <Input
                                             type="text"
-                                            id="officename" name="officename"
-                                            value={officeForm.data.officename} onChange={(e) => officeForm.setData("officename", e.target.value)}
-                                            className="col-span-3"
+                                            id="officename"
+                                            value={officeForm.data.officename}
+                                            onChange={(e) => officeForm.setData("officename", e.target.value)}
+                                            className="border rounded-md px-3 py-2"
                                         />
-
-                                        <Label htmlFor="officecode" className="text-left">
-                                            Office Code
-                                        </Label>
+                                    </div>
+                                    <div className="grid gap-2">
+                                        <Label htmlFor="officecode">Office Code</Label>
                                         <Input
                                             type="text"
-                                            id="officecode" name="officecode"
-                                            value={officeForm.data.officecode} onChange={(e) => officeForm.setData("officecode", e.target.value)}
-                                            className="col-span-3"
+                                            id="officecode"
+                                            value={officeForm.data.officecode}
+                                            onChange={(e) => officeForm.setData("officecode", e.target.value)}
+                                            className="border rounded-md px-3 py-2"
                                         />
                                     </div>
                                     <Button type="submit">Save</Button>
@@ -125,24 +133,28 @@ const OrgStructure = ({ group1, group2, group3 }) => {
                             </div>
                         </div>
                     </TabsContent>
+
                     {/* Division Tab */}
                     <TabsContent value="division">
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <h2 className="text-lg font-semibold">Division</h2>
+                            </div>
+                            <Dialog open={isOfficeDialogOpen} onOpenChange={setIsOfficeDialogOpen}>
+                                <DialogTrigger asChild>
+                                    <Button className="ml-auto mt-3">Add Division</Button>
+                                </DialogTrigger>
+                            </Dialog>
+                        </div>
                         <Dialog open={isOfficeDialogOpen} onOpenChange={setIsOfficeDialogOpen}>
-                            <DialogTrigger asChild>
-                                <Button className="mt-3" onClick={() => setIsOfficeDialogOpen(true)}>Add Division</Button>
-                            </DialogTrigger>
                             <DialogContent>
                                 <DialogHeader>
                                     <DialogTitle>Add New Division</DialogTitle>
                                 </DialogHeader>
-                                <form onSubmit={submitDivision} className="grid gap-4 py-4">
-                                    <div className="grid grid-cols-4 items-center gap-4">
-
-                                        <Label htmlFor="officename" className="text-left">
-                                            Office Name
-                                        </Label>
+                                <form onSubmit={submitDivision} className="grid items-start gap-4 py-4">
+                                    <div className="grid gap-2">
+                                        <Label htmlFor="officecode">Office Name</Label>
                                         <Select name="officecode" value={divisionForm.data.officecode} onValueChange={(value) => divisionForm.setData("officecode", value)}>
-
                                             <SelectTrigger>
                                                 <SelectValue placeholder="" />
                                             </SelectTrigger>
@@ -150,29 +162,27 @@ const OrgStructure = ({ group1, group2, group3 }) => {
                                                 {group1.map((group, index) => {
                                                     return <SelectItem key={index} value={group.group1Code}>{group.group1Name}</SelectItem>;
                                                 })}
-
                                             </SelectContent>
                                         </Select>
-
-                                        <Label htmlFor="divisionname" className="text-left">
-                                            Division Name
-                                        </Label>
-                                        <input type="hidden" name="group" value={divisionForm.data.group} />
+                                    </div>
+                                    <div className="grid gap-2">
+                                        <Label htmlFor="divisionname">Division Name</Label>
                                         <Input
                                             type="text"
-                                            id="divisionname" name="divisionname"
-                                            value={divisionForm.data.divisionname} onChange={(e) => divisionForm.setData("divisionname", e.target.value)}
-                                            className="col-span-3"
+                                            id="divisionname"
+                                            value={divisionForm.data.divisionname}
+                                            onChange={(e) => divisionForm.setData("divisionname", e.target.value)}
+                                            className="border rounded-md px-3 py-2"
                                         />
-
-                                        <Label htmlFor="divisioncode" className="text-left">
-                                            Division Code
-                                        </Label>
+                                    </div>
+                                    <div className="grid gap-2">
+                                        <Label htmlFor="divisioncode">Division Code</Label>
                                         <Input
                                             type="text"
-                                            id="divisioncode" name="divisioncode"
-                                            value={divisionForm.data.divisioncode} onChange={(e) => divisionForm.setData("divisioncode", e.target.value)}
-                                            className="col-span-3"
+                                            id="divisioncode"
+                                            value={divisionForm.data.divisioncode}
+                                            onChange={(e) => divisionForm.setData("divisioncode", e.target.value)}
+                                            className="border rounded-md px-3 py-2"
                                         />
                                     </div>
                                     <Button type="submit">Save</Button>
@@ -181,28 +191,32 @@ const OrgStructure = ({ group1, group2, group3 }) => {
                         </Dialog>
                         <div className="grid auto-rows-min mt-5 gap-4 md:grid-cols-1">
                             <div className="rounded-xl">
-                                    <DataTable columns={group2Columns} data={group2} />
+                                <DataTable columns={group2Columns} data={group2} />
                             </div>
                         </div>
                     </TabsContent>
+
                     {/* Unit Tab */}
                     <TabsContent value="unit">
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <h2 className="text-lg font-semibold">Unit</h2>
+                            </div>
+                            <Dialog open={isOfficeDialogOpen} onOpenChange={setIsOfficeDialogOpen}>
+                                <DialogTrigger asChild>
+                                    <Button className="ml-auto mt-3">Add Unit</Button>
+                                </DialogTrigger>
+                            </Dialog>
+                        </div>
                         <Dialog open={isOfficeDialogOpen} onOpenChange={setIsOfficeDialogOpen}>
-                            <DialogTrigger asChild>
-                                <Button className="mt-3" onClick={() => setIsOfficeDialogOpen(true)}>Add Unit</Button>
-                            </DialogTrigger>
                             <DialogContent>
                                 <DialogHeader>
                                     <DialogTitle>Add New Unit</DialogTitle>
                                 </DialogHeader>
-                                <form onSubmit={submitUnit} className="grid gap-4 py-4">
-                                    <div className="grid grid-cols-4 items-center gap-4">
-
-                                        <Label htmlFor="officename" className="text-left">
-                                            Office Name
-                                        </Label>
+                                <form onSubmit={submitUnit} className="grid items-start gap-4 py-4">
+                                    <div className="grid gap-2">
+                                        <Label htmlFor="officecode">Office Name</Label>
                                         <Select name="officecode" value={unitForm.data.officecode} onValueChange={(value) => unitForm.setData("officecode", value)}>
-
                                             <SelectTrigger>
                                                 <SelectValue placeholder="" />
                                             </SelectTrigger>
@@ -210,14 +224,12 @@ const OrgStructure = ({ group1, group2, group3 }) => {
                                                 {group1.map((group, index) => {
                                                     return <SelectItem key={index} value={group.group1Code}>{group.group1Name}</SelectItem>;
                                                 })}
-
                                             </SelectContent>
                                         </Select>
-                                        <Label htmlFor="divisioncode" className="text-left">
-                                            Division Name
-                                        </Label>
+                                    </div>
+                                    <div className="grid gap-2">
+                                        <Label htmlFor="divisioncode">Division Name</Label>
                                         <Select name="divisioncode" value={unitForm.data.divisioncode} onValueChange={(value) => unitForm.setData("divisioncode", value)}>
-
                                             <SelectTrigger>
                                                 <SelectValue placeholder="" />
                                             </SelectTrigger>
@@ -225,29 +237,27 @@ const OrgStructure = ({ group1, group2, group3 }) => {
                                                 {group2.map((group, index) => {
                                                     return <SelectItem key={index} value={group.group2Code}>{group.group2Name}</SelectItem>;
                                                 })}
-
                                             </SelectContent>
                                         </Select>
-
-                                        <Label htmlFor="divisionname" className="text-left">
-                                            Unit Name
-                                        </Label>
-                                        <input type="hidden" name="group" value={unitForm.data.group} />
+                                    </div>
+                                    <div className="grid gap-2">
+                                        <Label htmlFor="unitname">Unit Name</Label>
                                         <Input
                                             type="text"
-                                            id="unitname" name="unitname"
-                                            value={unitForm.data.unitname} onChange={(e) => unitForm.setData("unitname", e.target.value)}
-                                            className="col-span-3"
+                                            id="unitname"
+                                            value={unitForm.data.unitname}
+                                            onChange={(e) => unitForm.setData("unitname", e.target.value)}
+                                            className="border rounded-md px-3 py-2"
                                         />
-
-                                        <Label htmlFor="unitcode" className="text-left">
-                                            Unit Code
-                                        </Label>
+                                    </div>
+                                    <div className="grid gap-2">
+                                        <Label htmlFor="unitcode">Unit Code</Label>
                                         <Input
                                             type="text"
-                                            id="unitcode" name="unitcode"
-                                            value={unitForm.data.unitcode} onChange={(e) => unitForm.setData("unitcode", e.target.value)}
-                                            className="col-span-3"
+                                            id="unitcode"
+                                            value={unitForm.data.unitcode}
+                                            onChange={(e) => unitForm.setData("unitcode", e.target.value)}
+                                            className="border rounded-md px-3 py-2"
                                         />
                                     </div>
                                     <Button type="submit">Save</Button>
@@ -256,10 +266,12 @@ const OrgStructure = ({ group1, group2, group3 }) => {
                         </Dialog>
                         <div className="grid auto-rows-min mt-5 gap-4 md:grid-cols-1">
                             <div className="rounded-xl">
-                                    <DataTable columns={group3Columns} data={group3} />
+                                <DataTable columns={group3Columns} data={group3} />
                             </div>
                         </div>
                     </TabsContent>
+
+
                 </Tabs>
             </div>
         </div>

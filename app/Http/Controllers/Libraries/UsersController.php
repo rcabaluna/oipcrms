@@ -19,18 +19,18 @@ class UsersController extends Controller
         $tblgroup1 = TblGroup1::latest()->get();
         $tblgroup2 = TblGroup2::latest()->get();
         $tblgroup3 = TblGroup3::latest()->get();
-        
+
         $users = Users::leftJoin('tblgroup3', 'tblusers.group3code', '=', 'tblgroup3.group3Code')
-        ->leftJoin('tblgroup2', 'tblusers.group2code', '=', 'tblgroup2.group2Code')
-        ->leftJoin('tblgroup1', 'tblusers.group1code', '=', 'tblgroup1.group1Code')
-        ->select(
-            'tblusers.*',
-            'tblgroup1.group1Name',
-            'tblgroup2.group2Name',
-            'tblgroup3.group3Name'
-        )
-        ->get();
-        
+            ->leftJoin('tblgroup2', 'tblusers.group2code', '=', 'tblgroup2.group2Code')
+            ->leftJoin('tblgroup1', 'tblusers.group1code', '=', 'tblgroup1.group1Code')
+            ->select(
+                'tblusers.*',
+                'tblgroup1.group1Name',
+                'tblgroup2.group2Name',
+                'tblgroup3.group3Name'
+            )
+            ->get();
+
         return inertia('Libraries/Users', [
             'users' => $users,
             'group1' => $tblgroup1,
@@ -54,7 +54,6 @@ class UsersController extends Controller
             'divisioncode' => 'nullable|string|max:50',
             'unitcode' => 'nullable|string|max:50',
             'is_head' => 'boolean',
-            'is_active' => 'required|boolean',
         ]);
 
         Users::create([
@@ -67,7 +66,6 @@ class UsersController extends Controller
             'group2Code' => $request->divisioncode,
             'group3Code' => $request->unitcode,
             'is_head' => $request->is_head,
-            'is_active' => $request->is_active,
         ]);
 
         return redirect()->back()->with('success', 'Record added successfully!');

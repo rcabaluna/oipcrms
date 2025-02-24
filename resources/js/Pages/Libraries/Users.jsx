@@ -16,7 +16,6 @@ import { Checkbox } from "@/Components/ui/checkbox";  // Import ShadCN Checkbox
 import MainSidebar from "@/Layouts/MainSidebar";
 import { useForm } from "@inertiajs/react";
 import React, { useState } from "react";
-import { cn } from "@/lib/utils"
 
 const Users = ({ users, group1, group2, group3 }) => {
     const [isUserDialogOpen, setIsUserDialogOpen] = useState(false);
@@ -30,15 +29,19 @@ const Users = ({ users, group1, group2, group3 }) => {
         divisioncode: "",
         unitcode: "",
         is_head: false,
-        is_active: true
     });
 
     const handleSubmit = (e) => {
         e.preventDefault();
         userForm.post("/libraries/users", {
-            onSuccess: () => setIsUserDialogOpen(false),
+            onSuccess: () => {
+                setIsUserDialogOpen(false);  // Close the dialog
+                userForm.reset();  // Reset the form to clear all fields
+            },
+            onError: (error) => console.log(error)  // Log the error if submission fails
         });
     };
+
 
     return (
         <div className="flex flex-col gap-6 p-6 mt-10 mx-10">
@@ -87,21 +90,23 @@ const Users = ({ users, group1, group2, group3 }) => {
                             </div>
                             <div className="grid gap-2">
                                 <Label htmlFor="extension">Extension</Label>
-                                <select
-                                    id="extension"
-                                    value={userForm.data.extension}
-                                    onChange={(e) => userForm.setData("extension", e.target.value)}
-                                    className="col-span-1 border rounded-md px-3 py-2"
-                                >
-                                    <option value=""></option>
-                                    <option value="Sr">Sr</option>
-                                    <option value="Jr">Jr</option>
-                                    <option value="II">II</option>
-                                    <option value="III">III</option>
-                                    <option value="IV">IV</option>
-                                    <option value="V">V</option>
-                                </select>
+                                <Select value={userForm.data.extension} onValueChange={(value) => userForm.setData("extension", value)}>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Select Extension" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value={null}>None</SelectItem>
+                                        <SelectItem value="Sr">Sr</SelectItem>
+                                        <SelectItem value="Jr">Jr</SelectItem>
+                                        <SelectItem value="II">II</SelectItem>
+                                        <SelectItem value="III">III</SelectItem>
+                                        <SelectItem value="IV">IV</SelectItem>
+                                        <SelectItem value="V">V</SelectItem>
+                                    </SelectContent>
+                                </Select>
                             </div>
+
+
                             <div className="grid gap-2">
                                 <Label htmlFor="position">Position</Label>
                                 <Input
@@ -156,15 +161,6 @@ const Users = ({ users, group1, group2, group3 }) => {
                                     id="is_head"
                                     checked={userForm.data.is_head}
                                     onCheckedChange={(checked) => userForm.setData("is_head", checked)}
-                                    className="h-4 w-4"
-                                />
-                            </div>
-                            <div className="grid gap-2">
-                                <Label>Is Active</Label>
-                                <Checkbox
-                                    id="is_active"
-                                    checked={userForm.data.is_active}
-                                    onCheckedChange={(checked) => userForm.setData("is_active", checked)}
                                     className="h-4 w-4"
                                 />
                             </div>

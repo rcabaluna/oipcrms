@@ -9,35 +9,45 @@ use Illuminate\Http\Request;
 
 class AccountsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $users = Users::latest()->get();
+
         $accounts = Accounts::join('tblusers', 'tblusers.userid', '=', 'tbluseraccounts.userid')
-        ->select(
-            'tblusers.*','tbluseraccounts.*',
-        )
-        ->get();
-        return inertia('Libraries/Accounts',['users' => $users, 'accounts' => $accounts]);
+            ->select(
+                'tblusers.*',
+                'tbluseraccounts.*',
+            )
+            ->get();
+
+        $usersNotInAccounts = Users::whereNotIn('userid', function ($query) {
+            $query->select('userid')->from('tbluseraccounts');
+        })->get();
+
+        return inertia('Libraries/Accounts', ['users' => $usersNotInAccounts, 'accounts' => $accounts]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'userid' => 'required|int',
+            'username' => 'required|string|max:255',
+            'password' => 'required|string|max:255',
+            'useraccess' => 'nullable|array',  // Changed to array validation
+            'is_active' => 'boolean',
+        ]);
+
+        Accounts::create([
+            'userid' => $request->userid,
+            'username' => $request->username,
+            'password' => bcrypt($request->password),  // Hash the password
+            'useraccess' => $request->has('useraccess') ? implode(';', $request->useraccess) : null,  // Ensure useraccess is valid
+            'is_active' => $request->is_active,
+        ]);
+
+        return redirect()->back()->with('success', 'Account created successfully!');  // Success feedback
     }
+
 
     /**
      * Display the specified resource.
@@ -66,8 +76,11 @@ class AccountsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+
+    public function destroy(Accounts $account)
     {
-        //
+        $account->delete();
+
+        return redirect()->back()->with('success', 'Record deleted successfully!');
     }
 }

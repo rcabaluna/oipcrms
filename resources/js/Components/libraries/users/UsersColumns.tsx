@@ -13,7 +13,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { Checkbox } from "@/Components/ui/checkbox";
 import { DataTableColumnHeader } from "@/Components/table-functions/DataTableColumnHeader";
 export type UsersCols = {
-    userid: string;
+    userid: number;
     lastname: string;
     firstname: string;
     middlename?: string;
@@ -23,7 +23,6 @@ export type UsersCols = {
     group2Name: string; // Division
     group3Name: string; // Unit
     is_head: boolean;
-    is_active: boolean;
 };
 
 export const columns: ColumnDef<UsersCols>[] = [
@@ -75,13 +74,6 @@ export const columns: ColumnDef<UsersCols>[] = [
         header: ({ column }) => <DataTableColumnHeader column={column} title="Head" />,
         cell: ({ row }) => (
             row.original.is_head ? <span className="text-green-500 font-bold">Yes</span> : <span className="text-gray-500">No</span>
-        ),
-    },
-    {
-        accessorKey: "is_active",
-        header: ({ column }) => <DataTableColumnHeader column={column} title="Active" />,
-        cell: ({ row }) => (
-            row.original.is_active ? <span className="text-green-500 font-bold">Active</span> : <span className="text-red-500">Inactive</span>
         ),
     },
     {

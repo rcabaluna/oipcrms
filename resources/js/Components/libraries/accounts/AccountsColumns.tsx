@@ -13,16 +13,14 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { Checkbox } from "@/Components/ui/checkbox";
 import { DataTableColumnHeader } from "@/Components/table-functions/DataTableColumnHeader";
 export type AccountsCols = {
-    userid: string;
+    useraccountid: number;
+    userid: number;
     lastname: string;
     firstname: string;
     middlename?: string;
     extension?: string;
-    position: string;
-    group1Name: string; // Office
-    group2Name: string; // Division
-    group3Name: string; // Unit
-    is_head: boolean;
+    username: string; // Office
+    useraccess: string; // Division
     is_active: boolean;
 };
 
@@ -59,6 +57,10 @@ export const columns: ColumnDef<AccountsCols>[] = [
         header: ({ column }) => <DataTableColumnHeader column={column} title="Username" />,
     },
     {
+        accessorKey: "useraccess",
+        header: ({ column }) => <DataTableColumnHeader column={column} title="User Access" />,
+    },
+    {
         accessorKey: "is_active",
         header: ({ column }) => <DataTableColumnHeader column={column} title="Active" />,
         cell: ({ row }) => (
@@ -69,12 +71,12 @@ export const columns: ColumnDef<AccountsCols>[] = [
         id: "actions",
         header: ({ column }) => <DataTableColumnHeader column={column} title="Actions" />,
         cell: ({ row }) => {
-            const users = row.original;
+            const accounts = row.original;
             const { delete: destroy } = useForm();
             const [open, setOpen] = useState(false);
 
             const ConfirmDelete = () => {
-                destroy(route("users.destroy", { user: users.userid }), {
+                destroy(route("accounts.destroy", { account: accounts.useraccountid }), {
                     onSuccess: () => {
                         setOpen(false); // Close the dropdown
                     },
