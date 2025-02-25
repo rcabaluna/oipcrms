@@ -1,9 +1,9 @@
-import { AppSidebar } from "@/Components/AppSidebar"
+import { AppSidebar } from "@/Components/AppSidebar";
 import {
     SidebarInset,
     SidebarProvider,
     SidebarTrigger,
-} from "@/Components/ui/sidebar"
+} from "@/Components/ui/sidebar";
 import React, { ReactNode } from "react";
 import MainBreadcrumb from "./MainBreadcrumb";
 
@@ -13,16 +13,20 @@ interface MainSidebarProps {
     bpage: string;
 }
 
-const MainSidebar: React.FC<MainSidebarProps> = ({children, blink, bpage}) => {
+const MainSidebar: React.FC<MainSidebarProps> = ({
+    children,
+    blink,
+    bpage,
+}) => {
     return (
         <SidebarProvider>
             <AppSidebar />
-            <SidebarInset >
-                <MainBreadcrumb blink={blink} bpage={bpage}/>
+            <SidebarInset>
+                <MainBreadcrumb blink={blink} bpage={bpage} />
                 {children}
             </SidebarInset>
         </SidebarProvider>
-    )
-}
+    );
+};
 
-export default MainSidebar
+export default MainSidebar;

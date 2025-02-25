@@ -1,28 +1,25 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
+    use Illuminate\Support\Facades\Route;
+    use App\Http\Controllers\Libraries\OrgStructureController;
+    use App\Http\Controllers\Libraries\UsersController;
+    use App\Http\Controllers\Libraries\AccountsController;
+    use App\Http\Controllers\Auth\LoginController;
+    use Illuminate\Http\RedirectResponse;
 
-// Route::get('/', function () {
-//     return Inertia::render('Welcome', [
-//         'canLogin' => Route::has('login'),
-//         'canRegister' => Route::has('register'),
-//         'laravelVersion' => Application::VERSION,
-//         'phpVersion' => PHP_VERSION,
-//     ]);
-// });
 
-// Route::get('/dashboard', function () {
-//     return Inertia::render('Dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
+    Route::middleware(['auth'])->group(function () {
+        Route::resource('/libraries/org-structure', OrgStructureController::class);
+        Route::resource('/libraries/users', UsersController::class);
+        Route::resource('/libraries/accounts', AccountsController::class);
 
-// Route::middleware('auth')->group(function () {
-//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-// });
+    });
 
-require __DIR__ . '/auth.php';
-require __DIR__ . '/libraries.php';
+    Route::get('/', function (): RedirectResponse {
+        return redirect('/libraries/org-structure');
+    });
+    
+    Route::get('/login', [LoginController::class, 'index'])->name('login');
+    Route::post('/login', [LoginController::class, 'login']);
+    Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth');
+    
