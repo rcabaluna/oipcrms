@@ -17,7 +17,6 @@ return new class extends Migration {
             $table->string('group2code', 50)->nullable();
             $table->string('group3code', 50)->nullable();
             $table->string('position', 100)->nullable();
-            $table->tinyInteger('is_active')->default(1);
             $table->tinyInteger('is_head')->default(0);
             $table->timestamps();
         });

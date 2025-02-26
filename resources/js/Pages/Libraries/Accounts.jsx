@@ -10,12 +10,18 @@ import {
 } from "@/Components/ui/dialog";
 import { Input } from "@/Components/ui/input";
 import { Label } from "@/Components/ui/label";
-import { Checkbox } from "@/Components/ui/checkbox";  // Import ShadCN Checkbox
+import { Checkbox } from "@/Components/ui/checkbox"; // Import ShadCN Checkbox
 import { Separator } from "@/Components/ui/separator";
 import MainSidebar from "@/Layouts/MainSidebar";
 import { useForm } from "@inertiajs/react";
 import React, { useState } from "react";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/Components/ui/select";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/Components/ui/select";
 
 const Accounts = ({ users, accounts }) => {
     const [isUserDialogOpen, setIsUserDialogOpen] = useState(false);
@@ -23,7 +29,7 @@ const Accounts = ({ users, accounts }) => {
         username: "",
         password: "",
         is_active: true,
-        useraccess: ["opcr", "ipcr", "libraries"],  // Default values for access
+        useraccess: ["opcr", "ipcr", "libraries"], // Default values for access
     });
 
     const handleSubmit = (e) => {
@@ -31,10 +37,10 @@ const Accounts = ({ users, accounts }) => {
 
         accountForm.post("/libraries/accounts", {
             onSuccess: () => {
-                setIsUserDialogOpen(false);  // Close the dialog
-                accountForm.reset();  // Reset the form after successful submission
+                setIsUserDialogOpen(false); // Close the dialog
+                accountForm.reset(); // Reset the form after successful submission
             },
-            onError: (error) => console.log(error)  // Log error if submission fails
+            onError: (error) => console.log(error), // Log error if submission fails
         });
     };
 
@@ -44,42 +50,102 @@ const Accounts = ({ users, accounts }) => {
             <div className="flex items-center justify-between">
                 <div>
                     <h1 className="text-xl font-bold">Manage User Accounts</h1>
-                    <p className="text-sm text-muted-foreground">View and manage user accounts.</p>
+                    <p className="text-sm text-muted-foreground">
+                        View and manage user accounts.
+                    </p>
                 </div>
-                <Dialog open={isUserDialogOpen} onOpenChange={setIsUserDialogOpen}>
+                <Dialog
+                    open={isUserDialogOpen}
+                    onOpenChange={setIsUserDialogOpen}
+                >
                     <DialogTrigger asChild>
-                        <Button onClick={() => setIsUserDialogOpen(true)}>Add User Account</Button>
+                        <Button onClick={() => setIsUserDialogOpen(true)}>
+                            Add User Account
+                        </Button>
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[425px]">
                         <DialogHeader>
                             <DialogTitle>Add User Account</DialogTitle>
                         </DialogHeader>
-                        <form onSubmit={handleSubmit} className="grid items-start gap-4">
+                        <form
+                            onSubmit={handleSubmit}
+                            className="grid items-start gap-4"
+                        >
                             {/* User Selection */}
                             <div className="grid gap-2">
                                 <Label>Name</Label>
                                 <Select
                                     value={accountForm.data.userid}
-                                    onValueChange={(value) => accountForm.setData("userid", Number(value))}
+                                    onValueChange={(value) =>
+                                        accountForm.setData(
+                                            "userid",
+                                            Number(value)
+                                        )
+                                    }
                                     className="col-span-1 border rounded-md px-3 py-2"
                                 >
                                     <SelectTrigger>
                                         <SelectValue placeholder="Select a user">
-                                            {
-                                                users.find((user) => user.userid === accountForm.data.userid)
-                                                    ? `${users.find((user) => user.userid === accountForm.data.userid).firstname} 
-                                ${users.find((user) => user.userid === accountForm.data.userid).middlename
-                                                        ? users.find((user) => user.userid === accountForm.data.userid).middlename.charAt(0) + "." : ""} 
-                                ${users.find((user) => user.userid === accountForm.data.userid).lastname} 
-                                ${users.find((user) => user.userid === accountForm.data.userid).extension || ""}`
-                                                    : "Select a user"
-                                            }
+                                            {users.find(
+                                                (user) =>
+                                                    user.userid ===
+                                                    accountForm.data.userid
+                                            )
+                                                ? `${
+                                                      users.find(
+                                                          (user) =>
+                                                              user.userid ===
+                                                              accountForm.data
+                                                                  .userid
+                                                      ).firstname
+                                                  } 
+                                ${
+                                    users.find(
+                                        (user) =>
+                                            user.userid ===
+                                            accountForm.data.userid
+                                    ).middlename
+                                        ? users
+                                              .find(
+                                                  (user) =>
+                                                      user.userid ===
+                                                      accountForm.data.userid
+                                              )
+                                              .middlename.charAt(0) + "."
+                                        : ""
+                                } 
+                                ${
+                                    users.find(
+                                        (user) =>
+                                            user.userid ===
+                                            accountForm.data.userid
+                                    ).lastname
+                                } 
+                                ${
+                                    users.find(
+                                        (user) =>
+                                            user.userid ===
+                                            accountForm.data.userid
+                                    ).extension || ""
+                                }`
+                                                : "Select a user"}
                                         </SelectValue>
                                     </SelectTrigger>
                                     <SelectContent>
                                         {users.map((user) => (
-                                            <SelectItem key={user.userid} value={user.userid}>
-                                                {`${user.firstname} ${user.middlename ? user.middlename.charAt(0) + "." : ""} ${user.lastname} ${user.extension || ""}`.trim()}
+                                            <SelectItem
+                                                key={user.userid}
+                                                value={user.userid}
+                                            >
+                                                {`${user.firstname} ${
+                                                    user.middlename
+                                                        ? user.middlename.charAt(
+                                                              0
+                                                          ) + "."
+                                                        : ""
+                                                } ${user.lastname} ${
+                                                    user.extension || ""
+                                                }`.trim()}
                                             </SelectItem>
                                         ))}
                                     </SelectContent>
@@ -92,7 +158,12 @@ const Accounts = ({ users, accounts }) => {
                                 <Input
                                     id="username"
                                     value={accountForm.data.username}
-                                    onChange={(e) => accountForm.setData("username", e.target.value)}
+                                    onChange={(e) =>
+                                        accountForm.setData(
+                                            "username",
+                                            e.target.value
+                                        )
+                                    }
                                     className="col-span-1 border rounded-md px-3 py-2"
                                 />
                             </div>
@@ -104,7 +175,12 @@ const Accounts = ({ users, accounts }) => {
                                     type="password"
                                     id="password"
                                     value={accountForm.data.password}
-                                    onChange={(e) => accountForm.setData("password", e.target.value)}
+                                    onChange={(e) =>
+                                        accountForm.setData(
+                                            "password",
+                                            e.target.value
+                                        )
+                                    }
                                     className="col-span-1 border rounded-md px-3 py-2"
                                 />
                             </div>
@@ -114,7 +190,12 @@ const Accounts = ({ users, accounts }) => {
                                 <Label>Is Active</Label>
                                 <Checkbox
                                     checked={accountForm.data.is_active}
-                                    onCheckedChange={(checked) => accountForm.setData("is_active", checked)}
+                                    onCheckedChange={(checked) =>
+                                        accountForm.setData(
+                                            "is_active",
+                                            checked
+                                        )
+                                    }
                                 />
                             </div>
 
@@ -125,9 +206,23 @@ const Accounts = ({ users, accounts }) => {
                                 {/* OPCR Checkbox */}
                                 <div className="flex items-center gap-2">
                                     <Checkbox
-                                        checked={accountForm.data.useraccess.includes("opcr")}
+                                        checked={accountForm.data.useraccess.includes(
+                                            "opcr"
+                                        )}
                                         onCheckedChange={(checked) =>
-                                            accountForm.setData("useraccess", checked ? [...accountForm.data.useraccess, "opcr"] : accountForm.data.useraccess.filter((access) => access !== "opcr"))
+                                            accountForm.setData(
+                                                "useraccess",
+                                                checked
+                                                    ? [
+                                                          ...accountForm.data
+                                                              .useraccess,
+                                                          "opcr",
+                                                      ]
+                                                    : accountForm.data.useraccess.filter(
+                                                          (access) =>
+                                                              access !== "opcr"
+                                                      )
+                                            )
                                         }
                                     />
                                     <Label>OPCR</Label>
@@ -136,9 +231,23 @@ const Accounts = ({ users, accounts }) => {
                                 {/* IPCR Checkbox */}
                                 <div className="flex items-center gap-2">
                                     <Checkbox
-                                        checked={accountForm.data.useraccess.includes("ipcr")}
+                                        checked={accountForm.data.useraccess.includes(
+                                            "ipcr"
+                                        )}
                                         onCheckedChange={(checked) =>
-                                            accountForm.setData("useraccess", checked ? [...accountForm.data.useraccess, "ipcr"] : accountForm.data.useraccess.filter((access) => access !== "ipcr"))
+                                            accountForm.setData(
+                                                "useraccess",
+                                                checked
+                                                    ? [
+                                                          ...accountForm.data
+                                                              .useraccess,
+                                                          "ipcr",
+                                                      ]
+                                                    : accountForm.data.useraccess.filter(
+                                                          (access) =>
+                                                              access !== "ipcr"
+                                                      )
+                                            )
                                         }
                                     />
                                     <Label>IPCR</Label>
@@ -147,9 +256,24 @@ const Accounts = ({ users, accounts }) => {
                                 {/* LIBRARIES Checkbox */}
                                 <div className="flex items-center gap-2">
                                     <Checkbox
-                                        checked={accountForm.data.useraccess.includes("libraries")}
+                                        checked={accountForm.data.useraccess.includes(
+                                            "libraries"
+                                        )}
                                         onCheckedChange={(checked) =>
-                                            accountForm.setData("useraccess", checked ? [...accountForm.data.useraccess, "libraries"] : accountForm.data.useraccess.filter((access) => access !== "libraries"))
+                                            accountForm.setData(
+                                                "useraccess",
+                                                checked
+                                                    ? [
+                                                          ...accountForm.data
+                                                              .useraccess,
+                                                          "libraries",
+                                                      ]
+                                                    : accountForm.data.useraccess.filter(
+                                                          (access) =>
+                                                              access !==
+                                                              "libraries"
+                                                      )
+                                            )
                                         }
                                     />
                                     <Label>Libraries</Label>
@@ -157,7 +281,9 @@ const Accounts = ({ users, accounts }) => {
                             </div>
 
                             {/* Submit Button */}
-                            <Button type="submit" className="mt-4">Save</Button>
+                            <Button type="submit" className="mt-4">
+                                Save
+                            </Button>
                         </form>
                     </DialogContent>
                 </Dialog>

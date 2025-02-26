@@ -55,7 +55,7 @@ public function login(Request $request)
             ->select(
                 'ua.useraccountid', 'ua.userid', 'ua.username', 'ua.password', 'ua.is_active', 'ua.useraccess',
                 'u.lastname', 'u.firstname', 'u.middlename', 'u.extension', 'u.group1code', 'u.group2code', 'u.group3code',
-                'u.position', 'u.is_active as user_is_active', 'u.is_head',
+                'u.position', 'u.is_head',
                 'g1.group1Name as office_name', 'g2.group2Name as division_name', 'g3.group3Name as unit_name'
             )
             ->where('ua.userid', $user->userid)

@@ -68,10 +68,31 @@ class AccountsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        //
+    public function update(Request $request, Accounts $account)
+{
+    // Get all input data
+    $fields = $request->all();
+
+    // Check if password is present and not null
+    if ($request->has('password') && !is_null($request->password)) {
+        // Hash the password before updating
+        $fields['password'] = bcrypt($request->password);
+    } else {
+        // Optionally, remove the password from the fields if it is null
+        unset($fields['password']);
     }
+
+    // Handle 'useraccess' field: convert array to semicolon-separated string, or set to null
+    $fields['useraccess'] = $request->has('useraccess') ? implode(';', $request->useraccess) : null;
+
+    // Update the account with the fields
+    $account->update($fields);
+
+    // Redirect with success message
+    return redirect()->back()->with('success', 'Account updated successfully!');
+}
+
+    
 
     /**
      * Remove the specified resource from storage.
